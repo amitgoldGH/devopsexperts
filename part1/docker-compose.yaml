@@ -1,0 +1,5 @@
+services:
+  flaskservice:
+    image: "amitgoldgh/python-flask-app:latest"
+    ports:
+    - "8000:5000"
