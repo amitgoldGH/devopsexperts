@@ -1,4 +1,4 @@
-# Flask App with Docker & Kubernetes
+# Flask App with Docker & Kubernetes (Part 2 of the course project)
 
 This is a simple Flask web application that demonstrates how to use environment variables through Kubernetes ConfigMaps and Secrets. It includes health endpoints for liveness and readiness probes.
 
