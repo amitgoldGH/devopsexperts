@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: flask-health-check
+spec:
+  schedule: "* * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: health-check
+            image: curlimages/curl
+            command:
+            - sh
+            - -c
+            - |
+              TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://cm-pod-service)
+              echo "$TIMESTAMP Service: cm-pod-service Status: $STATUS"
+          restartPolicy: OnFailure
