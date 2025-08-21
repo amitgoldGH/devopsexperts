@@ -4,8 +4,8 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds') // store username+password in Jenkins
         DOCKER_IMAGE = "amitgoldgh/python-flask-part2:latest"
-        HELM_CHART_DIR = "part3/helm/amitdevopsprojectchart"
-        HELM_CHART_OUTPUT = "part3/helm/charts"
+				HELM_CHART_DIR = 'D:\\DevopsExperts\\gitfolder\\devopsexperts\\part3\\helm\\amitdevopsprojectchart'
+        HELM_CHART_OUTPUT = 'D:\\DevopsExperts\\gitfolder\\devopsexperts\\part3\\helm\\charts'
     }
 
     stages {
@@ -34,20 +34,29 @@ pipeline {
             }
             steps {
                 bat """
-                helm upgrade --install amitdevopsprojectschart %HELM_CHART_DIR% --namespace default --set image.repository=amitgoldgh/python-flask-part2 --set image.tag=latest
+                helm upgrade --install amitdevopsprojectchart %HELM_CHART_DIR% --namespace default --set image.repository=amitgoldgh/python-flask-part2 --set image.tag=latest
                 """
             }
         }
 
         stage('Package Helm Chart') {
-            when {
-                changeset "part3/helm/**"
-            }
-            steps {
-                bat """
-                helm package %HELM_CHART_DIR% -d %HELM_CHART_OUTPUT%
-                """
-            }
-        }
+					when {
+									changeset "part3/helm/amitdevopsprojectchart/**"
+							}
+					steps {
+							script {
+									def timestamp = bat(
+											script: 'powershell -command "Get-Date -Format \\"yyyy-MM-dd-HH-mm\\""',
+											returnStdout: true
+									).trim()
+
+									bat """
+											helm package %HELM_CHART_DIR% ^
+													--version ${timestamp} ^
+													-d %HELM_CHART_DIR%
+									"""
+							}
+					}
+			}
     }
 }
