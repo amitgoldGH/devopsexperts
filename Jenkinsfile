@@ -34,7 +34,7 @@ pipeline {
             }
             steps {
                 bat """
-                helm upgrade --install myapp %HELM_CHART_DIR% --namespace default --set image.repository=amitgoldgh/python-flask-part2 --set image.tag=latest
+                helm upgrade --install amitdevopsprojectschart %HELM_CHART_DIR% --namespace default --set image.repository=amitgoldgh/python-flask-part2 --set image.tag=latest
                 """
             }
         }
