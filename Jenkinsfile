@@ -44,8 +44,12 @@ pipeline {
               changeset "part3/docker/**"
             }
             steps {
-              bat 'curl -s -o nul -w "HTTP CODE: %{http_code}\\n" http://localhost:5000'
-            }
+								bat '''
+								for /f %%i in ('minikube service amitdevopsprojectchart --url') do set SERVICE_URL=%%i
+								echo Testing service at %SERVICE_URL%
+								curl -s -o nul -w "HTTP CODE: %%{http_code}\\n" %SERVICE_URL%
+								'''
+						}
         }
 
         stage('Package Helm Chart') {

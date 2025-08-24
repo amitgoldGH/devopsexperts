@@ -6,7 +6,7 @@ app = Flask(__name__)
 def home():
     config_message = os.getenv("CONFIG_MESSAGE", "Welcome to flask")
     api_key = os.getenv("API_KEY", "No API Key")
-    return f"{config_message} - API Key: {api_key}, VERSION TIMESTAMP 24-08-2025 17:48 TEST"
+    return f"{config_message} - API Key: {api_key}, VERSION TIMESTAMP 24-08-2025 17:54 TEST"
     
 @app.route("/health/live")
 def liveness():
