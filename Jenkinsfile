@@ -38,39 +38,6 @@ pipeline {
                 """
             }
         }
-				
-				stage('Port-forward Flask service') {
-						when {
-              changeset "part3/docker/**"
-            }
-						steps {
-								bat '''
-								start /b kubectl port-forward service/amitdevopsprojectchart 5000:5000
-								REM wait a few seconds for port-forward to be ready
-								ping -n 5 127.0.0.1 > nul
-								'''
-						}
-				}
-
-				stage('Test Flask Webpage') {
-						when {
-              changeset "part3/docker/**"
-            }
-						steps {
-								bat 'curl -s -o nul -w "HTTP CODE: %{http_code}\\n" http://localhost:5000'
-						}
-				}
-
-				stage('Cleanup Port-forward') {
-						when {
-              changeset "part3/docker/**"
-            }
-						steps {
-								bat '''
-								for /f "tokens=5" %%p in ('netstat -ano ^| find ":5000" ^| find "LISTENING"') do taskkill /PID %%p /F
-								'''
-						}
-				}
 
         stage('Package Helm Chart') {
 					when {
