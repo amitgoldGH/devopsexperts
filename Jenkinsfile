@@ -38,6 +38,15 @@ pipeline {
                 """
             }
         }
+				
+				stage('Test Helm Chart Running') {
+            when {
+              changeset "part3/docker/**"
+            }
+            steps {
+              bat 'curl -s -o nul -w "HTTP CODE: %{http_code}\\n" http://localhost:5000'
+            }
+        }
 
         stage('Package Helm Chart') {
 					when {
